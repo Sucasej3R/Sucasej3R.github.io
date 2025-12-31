@@ -1,0 +1,198 @@
+/* ==================================================
+   1. 核心背景设置 (电脑/手机自动适配)
+   ================================================== */
+   #web_bg {
+    /* --- 请在此处修改你的背景图路径 --- */
+    background-image: url("/images/background.jpg") !important;
+    
+    /* 核心修复：保持比例填充，永不变形 */
+    background-size: cover !important; 
+    background-position: center center !important;
+    background-attachment: fixed !important; /* 视差滚动效果 */
+    background-repeat: no-repeat !important;
+    z-index: -999 !important; /* 保证背景永远在最底层 */
+}
+
+/* 手机端独立适配 (屏幕 < 768px) */
+@media screen and (max-width: 768px) {
+    #web_bg {
+        /* --- 请在此处修改手机端背景图路径 --- */
+        background-image: url("/images/mobile.jpg") !important;
+        background-attachment: scroll !important; /* 手机端取消固定，性能更好 */
+    }
+}
+
+/* ==================================================
+   2. 沉浸式去色块 (去除顶部蓝条/黑条)
+   ================================================== */
+#page-header.full_page, #page-header {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+/* 顶部导航栏变为半透明磨砂 */
+#page-header #nav {
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.5s;
+}
+
+/* ==================================================
+   3. 流行卡片特效 (玻璃态 + 呼吸感 + 昼夜切换)
+   ================================================== */
+:root {
+    --card-bg: rgba(255, 255, 255, 0.75); /* 白天卡片透明度 */
+    --card-hover-bg: rgba(255, 255, 255, 0.95);
+    --card-border: rgba(255, 255, 255, 0.4);
+}
+[data-theme="dark"] {
+    --card-bg: rgba(0, 0, 0, 0.6); /* 黑夜卡片透明度 */
+    --card-hover-bg: rgba(0, 0, 0, 0.8);
+    --card-border: rgba(255, 255, 255, 0.1);
+}
+
+/* 选中所有卡片：首页文章、侧边栏、归档页、文章详情页 */
+.layout > .recent-posts .recent-post-item,
+#aside-content .card-widget,
+div#post,
+div#page,
+div#archive,
+div#tag,
+div#category {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(15px); /* 强力磨砂 */
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 15px;
+    border: 1px solid var(--card-border);
+    transition: all 0.3s ease-in-out; /* 平滑过渡动画 */
+}
+
+/* 悬停呼吸特效：上浮 + 光晕 + 变亮 */
+.layout > .recent-posts .recent-post-item:hover,
+#aside-content .card-widget:hover {
+    transform: translateY(-5px) scale(1.01); /* 上浮并微调大 */
+    box-shadow: 0 8px 20px rgba(255, 192, 203, 0.5); /* 唯美粉色光晕 */
+    background: var(--card-hover-bg) !important;
+    border-color: #FFC0CB; /* 边框变粉 */
+}
+
+/* 昼夜切换时的全局动画 */
+body { transition: background 0.8s ease-in-out; }
+
+
+/* ==================================================
+   4. 文章图片悬停放大 (图片呼吸感)
+   ================================================== */
+   #article-container img {
+    transition: all 0.4s ease-in-out;
+    border-radius: 8px; /* 图片圆角 */
+}
+#article-container img:hover {
+    transform: scale(1.02); /* 微微放大 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* 悬浮阴影 */
+}
+
+/* ==================================================
+   5. 全局文字选中颜色 (默认蓝色改粉色)
+   ================================================== */
+::selection {
+    background: #FFC0CB; /* 粉色背景 */
+    color: #fff; /* 白色文字 */
+}
+::-moz-selection {
+    background: #FFC0CB;
+    color: #fff;
+}
+
+/* ==================================================
+   6. 底部页脚爱心跳动动画
+   ================================================== */
+/* 这里的类名对应 _config.butterfly.yml 里的 footer icon */
+.fa-heart {
+    color: #ff0000; /* 红心 */
+    animation: heartAnimate 1.3s ease-in-out infinite; /* 无限跳动 */
+}
+
+@keyframes heartAnimate {
+    0%, 100% { transform: scale(1); }
+    10% { transform: scale(1.1); }
+    20% { transform: scale(1); }
+    30% { transform: scale(1.1); }
+    40% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    60% { transform: scale(1); }
+    70% { transform: scale(1.1); }
+    80% { transform: scale(1); }
+}
+
+/* ==================================================
+   7. 完美去除页脚蓝色色块 & 优化文字
+   ================================================== */
+   #footer {
+    /* 核心：背景变透明 */
+    background: transparent !important;
+    background-color: transparent !important;
+    
+    /* 去除顶部可能存在的边框或阴影 */
+    box-shadow: none !important;
+    border: none !important;
+    
+    /* 只要文字，不要背景图片 */
+    background-image: none !important;
+}
+
+/* 杀死伪元素（有些主题版本会在 footer 上加一层遮罩） */
+#footer::before {
+    background: transparent !important;
+}
+
+/* 优化页脚文字 */
+#footer-wrap {
+    /* 强制文字变白，防止在深色壁纸上看不清 */
+    color: #ffffff !important;
+    
+    /* 加一点黑色文字阴影，保证在任何背景下都能看清字 */
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+    
+    /* 稍微拉开一点间距，更好看 */
+    line-height: 2;
+}
+
+/* 里面的链接（比如 Hexo, Butterfly 字样）也变白 */
+#footer-wrap a {
+    color: #ffffff !important;
+    font-weight: bold; /* 稍微加粗 */
+}
+
+
+/* ==================================================
+   8. 修复暗色模式下顶部“黑块”遮挡背景问题
+   ================================================== */
+   
+/* 去除顶部大图（Banner）在暗色模式下的黑色遮罩 */
+[data-theme="dark"] #page-header::before {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* 确保顶部导航栏（Nav）本身也没有背景色 */
+[data-theme="dark"] #page-header {
+    background: transparent !important;
+}
+
+/* 调整暗色模式下导航栏的透明度（可选，保持磨砂质感） */
+[data-theme="dark"] #page-header #nav {
+    background: rgba(0, 0, 0, 0.4) !important; /* 稍微深一点的透明黑，防止字看不清 */
+    backdrop-filter: blur(10px);
+}
+
+/* 额外修复：如果是文章页，去除顶部图的黑色滤镜 */
+[data-theme="dark"] #page-header.post-bg::before {
+    background: transparent !important;
+}
+/* 给顶部标题和站点名称加阴影，防止背景太亮看不清字 */
+[data-theme="dark"] #site-title,
+[data-theme="dark"] #site-subtitle,
+[data-theme="dark"] #post-info {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
